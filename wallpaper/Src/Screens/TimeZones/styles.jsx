@@ -40,6 +40,9 @@ const getStyles = () => {
       borderWidth: 1,
       paddingLeft: 15,
       borderRadius: 30,
+      backgroundColor: 'white',
+      borderColor: 'indigo',
+      paddingVertical: 10,
     },
     flatListView: {
       height: height * 0.6,

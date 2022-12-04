@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { View, ImageBackground, StyleProp } from 'react-native'
+import { View, ImageBackground, ViewStyle } from 'react-native'
 import { useSelector } from 'react-redux'
 import { getTimeBaseOnTimeZone } from '../../Helpers'
 import morining from '../../Asserts/morning.jpg'
 import afternoon from '../../Asserts/afternoon.jpg'
 import evening from '../../Asserts/evening.jpg'
+import getStyles from './styles'
 
 type BackGroundImageType = {
     style?: {},
-    children?: any
+    children?: JSX.Element
+}
+type StyleInfo = {
+    main: ViewStyle
 }
 
 
@@ -16,6 +20,7 @@ type BackGroundImageType = {
 const BackgroundImage = ({ style, children }: BackGroundImageType) => {
     const { currentTimeZoneTime } = useSelector((state) => state?.timeZonesReducer);
     const [source, setSource] = useState<any>()
+    const styles: StyleInfo = getStyles()
 
 
     useEffect(() => {
@@ -27,17 +32,8 @@ const BackgroundImage = ({ style, children }: BackGroundImageType) => {
 
     return <ImageBackground
         source={source}
-        style={{
-            width: "100%",
-            height: "100%",
-            justifyContent: "center"
-        }}>
-        {Boolean(children) && <View style={{
-            justifyContent: "center",
-            alignItems: "center"
-        }}>
-            {children}
-        </View>}
+        style={styles.main}>
+        {Boolean(children) && children}
     </ImageBackground>
 
 }

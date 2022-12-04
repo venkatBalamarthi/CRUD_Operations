@@ -40,13 +40,19 @@ const TimeZones = (): JSX.Element => {
         return currentTime
     }, [currentTimeZoneTime])
 
+    const handleTimeZoneCard = (item: string) => {
+        dispatch(setCurrentTimeZone({
+            timeZone: item
+        }))
+        setSearchZone("")
+
+    }
+
 
     const renderItem = ({ item, index }: RenderItem) => {
         const isSelected: boolean = currentTimeZoneTime?.timeZone === item
-        return <TouchableOpacity style={styles.mainContainer} onPress={() => dispatch(setCurrentTimeZone({
-            timeZone: item
-        }))}>
-            <Text style={styles.timeZomeLabel}>{item}</Text>
+        return <TouchableOpacity style={styles.mainContainer} onPress={() => handleTimeZoneCard(item)}>
+            <Text adjustsFontSizeToFit style={styles.timeZomeLabel}>{item}</Text>
             <CustomRadiobutton isSelected={isSelected} />
 
         </TouchableOpacity>
@@ -54,27 +60,29 @@ const TimeZones = (): JSX.Element => {
 
     const getTimeZonesData = useMemo(() => {
         const timesZonesList = TIME_ZONES.filter((item, index) => {
-            return item?.toLocaleLowerCase()?.includes(serachTimeZone?.toLocaleLowerCase())
+            return item?.toLocaleLowerCase()?.includes(serachTimeZone?.toLocaleLowerCase()?.trim())
         })
         return timesZonesList?.sort()
 
     }, [serachTimeZone])
     return <SafeAreaView style={styles.container}>
         <BackgroundImage>
-            <Text style={styles.timeZoneLabelText}>{`Current Time Zone:${currentTimeZoneTime?.timeZone}`}</Text>
-            <Text style={styles.timeZoneLabelText}>{`Current Time:${getCurrentTime}`}</Text>
+            <>
+                <Text style={styles.timeZoneLabelText}>{`Current Time Zone:${currentTimeZoneTime?.timeZone}`}</Text>
+                <Text style={styles.timeZoneLabelText}>{`Current Time:${getCurrentTime}`}</Text>
 
-            <TextInput value={serachTimeZone} onChangeText={(text) => setSearchZone(text)} style={styles.inputContainer}
-                placeholder={"Search TimeZones"}
-            />
-            <View style={styles.flatListView}>
-                <FlatList
-                    data={getTimeZonesData}
-                    renderItem={renderItem}
-                    keyExtractor={(item, index) => item}
-                    showsVerticalScrollIndicator={false}
+                <TextInput value={serachTimeZone} onChangeText={(text) => setSearchZone(text)} style={styles.inputContainer}
+                    placeholder={"Search TimeZones"}
                 />
-            </View>
+                <View style={styles.flatListView}>
+                    <FlatList
+                        data={getTimeZonesData}
+                        renderItem={renderItem}
+                        keyExtractor={(item, index) => item}
+                        showsVerticalScrollIndicator={false}
+                    />
+                </View>
+            </>
 
 
         </BackgroundImage>
