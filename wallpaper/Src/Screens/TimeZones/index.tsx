@@ -31,7 +31,6 @@ const TimeZones = (): JSX.Element => {
     const { currentTimeZoneTime } = useSelector((state) => state?.timeZonesReducer)
     const [serachTimeZone, setSearchZone] = useState("")
     const dispatch = useDispatch()
-    const inputRef = useRef<any>(null)
 
 
     const getCurrentTime: string = useMemo(() => {
@@ -49,7 +48,6 @@ const TimeZones = (): JSX.Element => {
 
     }
 
-    const clearInput = () => inputRef?.current?.clear()
 
 
     const renderItem = ({ item, index }: RenderItem) => {
