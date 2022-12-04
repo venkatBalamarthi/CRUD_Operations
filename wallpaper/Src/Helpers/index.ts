@@ -12,6 +12,11 @@ export const getTimeBaseOnTimeZone = (timeZone: string): string => {
 export type CurrentTimeZoneType = {
     timeZone: string
 }
+export const getAllTimeZones = (): string[] => {
+    let timeZonesList = Intl?.supportedValuesOf ? Intl?.supportedValuesOf('timeZone') : [];
+    return timeZonesList;
+
+}
 
 export const getCurrentTimeZone = (): CurrentTimeZoneType => {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;

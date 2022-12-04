@@ -1,10 +1,10 @@
-import React, { useMemo, useState, useRef } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { View, Text, SafeAreaView, FlatList, TouchableOpacity, Dimensions, TextInput, ViewStyle, TextStyle } from 'react-native';
 import { TIME_ZONES } from '../../constants';
 import getStyles from './styles';
-import { setCurrentImage, setCurrentTimeZone } from '../../AppConfig/Redux/Actions/timezones';
-import { formatAMPM, getTimeBaseOnTimeZone } from '../../Helpers';
+import { setCurrentTimeZone } from '../../AppConfig/Redux/Actions/timezones';
+import { formatAMPM, getAllTimeZones, getTimeBaseOnTimeZone } from '../../Helpers';
 import CustomRadiobutton from '../../Components/CustomRadio/index.tsx';
 import BackgroundImage from '../../Components/BackgroundImage';
 
@@ -60,7 +60,11 @@ const TimeZones = (): JSX.Element => {
     }
 
     const getTimeZonesData = useMemo(() => {
-        const timesZonesList = TIME_ZONES.filter((item, index) => {
+        //getAllTimeZones() will give the  all timezones it will depends on react native version and node js version otherwise it will give the error.
+        // that why i checked if its giving result or not .if we got resuts  we were using those time zones otherwise we are using  time zones from constants files
+        const timeZonesList: string[] = getAllTimeZones() || [];
+        const listData: string[] = timeZonesList?.length ? timeZonesList : TIME_ZONES
+        const timesZonesList = listData.filter((item, index) => {
             return item?.toLocaleLowerCase()?.includes(serachTimeZone?.toLocaleLowerCase()?.trim())
         })
         return timesZonesList?.sort()
