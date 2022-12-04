@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { View, Text, SafeAreaView, FlatList, TouchableOpacity, Dimensions, TextInput, ViewStyle, TextStyle } from 'react-native';
 import { TIME_ZONES } from '../../constants';
@@ -31,6 +31,7 @@ const TimeZones = (): JSX.Element => {
     const { currentTimeZoneTime } = useSelector((state) => state?.timeZonesReducer)
     const [serachTimeZone, setSearchZone] = useState("")
     const dispatch = useDispatch()
+    const inputRef = useRef<any>(null)
 
 
     const getCurrentTime: string = useMemo(() => {
@@ -47,6 +48,8 @@ const TimeZones = (): JSX.Element => {
         setSearchZone("")
 
     }
+
+    const clearInput = () => inputRef?.current?.clear()
 
 
     const renderItem = ({ item, index }: RenderItem) => {
@@ -73,6 +76,7 @@ const TimeZones = (): JSX.Element => {
 
                 <TextInput value={serachTimeZone} onChangeText={(text) => setSearchZone(text)} style={styles.inputContainer}
                     placeholder={"Search TimeZones"}
+                    placeholderTextColor={"indigo"}
                 />
                 <View style={styles.flatListView}>
                     <FlatList
